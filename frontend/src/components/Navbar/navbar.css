@@ -1,0 +1,51 @@
+/* Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    background-color: #333;
+    color: #fff;
+}
+
+.navbar__logo {
+    /* Estilos para el logo */
+}
+
+.navbar__links {
+    list-style: none;
+    display: flex;
+}
+
+.navbar__item {
+    margin-left: 1em;
+}
+
+.navbar__item a {
+    color: #fff;
+    text-decoration: none;
+}/* Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar__logo {
+  /* Estilos para el logo */
+}
+
+.navbar__links {
+  list-style: none;
+  display: flex;
+}
+
+.navbar__item {
+  margin-left: 1em;
+}
+
+.navbar__item a {
+  color: #fff;
+  text-decoration: none;
+}
