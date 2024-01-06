@@ -1,45 +1,56 @@
-const navLinks = [
+// navLinks.js
+import {
+    RiApps2Line,
+    RiTaxiLine,
+    RiShoppingBagLine,
+    RiSettings2Line,
+    RiBook2Line,
+    RiMessage2Line,
+    RiUserLine,
+  } from 'react-icons/ri';
+  
+  const navLinks = [
     {
-        path: "/dashboard",
-        icon: "ri-apps-2-line",
-        display: "Dashboard",
+      path: "/dashboard",
+      icon: RiApps2Line,
+      display: "Dashboard",
     },
     {
-        path: "/manage_tours",
-        icon: "ri-taxi-line",
-        display: "Tours",
+      path: "/manage_tours",
+      icon: RiTaxiLine,
+      display: "Tours",
     },
     {
-        path: "/manage_reviews",
-        icon: "ri-shopping-bag-line",
-        display: "Reseñas",
+      path: "/manage_reviews",
+      icon: RiShoppingBagLine,
+      display: "Reseñas",
     },
     {
-        path: "/manage_bookings",
-        icon: "ri-shopping-bag-line",
-        display: "Reservas",
+      path: "/manage_bookings",
+      icon: RiBook2Line,
+      display: "Reservas",
     },
     {
-        path: "/manage_subscribes",
-        icon: "ri-shopping-bag-line",
-        display: "Subscripciones",
+      path: "/manage_subscribes",
+      icon: RiShoppingBagLine,
+      display: "Subscripciones",
     },
     {
-        path: "/manage_contacts",
-        icon: "ri-shopping-bag-line",
-        display: "Mensaje Contacto",
+      path: "/manage_contacts",
+      icon: RiMessage2Line,
+      display: "Mensaje Contacto",
     },
     {
-        path: "/manage_users",
-        icon: "ri-shopping-bag-line",
-        display: "Usuarios",
+      path: "/manage_users",
+      icon: RiUserLine,
+      display: "Usuarios",
     },
     {
-        path: "/settings",
-        icon: "ri-settings-2-line",
-        display: "Settings",
+      path: "/settings",
+      icon: RiSettings2Line,
+      display: "Settings",
     },
-
-];
-
-export default navLinks;
+  ];
+  
+  export default navLinks;
+  
