@@ -5,14 +5,16 @@ import { BASE_URL } from '../../utils/config';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './manageBookings.css';
-import CustomModal from '../Modal/CustomModal';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import CustomModal from '../Modal/CustomModal'; // Import your CustomModal
 
 const localizer = momentLocalizer(moment);
 
 const ManageBookings = () => {
   const [bookings, setBookings] = useState([]);
-  const [modalIsOpen, setIsOpen] = useState(false);  // Controla la visibilidad del modal.
-  const [selectedDate, setSelectedDate] = useState(null);  // Guarda la fecha seleccionada.
+  const navigate = useNavigate(); // Use useNavigate for redirection
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   // Obtiene las reservaciones al cargar la página.
   useEffect(() => {
@@ -38,23 +40,14 @@ const ManageBookings = () => {
   };
 
   // Al hacer clic en un evento, muestra los detalles de la reserva.
-  const handleSelectEvent = (event) => {
-    alert(`Reserva seleccionada:\n\nNombre del tour: ${event.tourName}\nNúmero de invitados: ${event.guestSize}\nTeléfono: ${event.phone}\nReservado en: ${moment(event.bookAt).format('LLL')}`);
-  }
+  const handleSelectEvent = (booking) => {
+    setSelectedBooking(booking);
+    setModalIsOpen(true);
+  };
 
   // Al hacer clic en una fecha, abre la lógica de reserva.
   const handleSelectSlot = (slotInfo) => {
-    setSelectedDate(slotInfo.start);
-    openModal();
-  }
-
-  // Funciones para manejar el modal.
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
+    navigate(`/create_booking?date=${slotInfo.start.toISOString()}`); // Redirect to create booking page with date
   }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
@@ -83,8 +76,8 @@ const ManageBookings = () => {
       />
       <CustomModal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        selectedDate={selectedDate}
+        onRequestClose={() => setModalIsOpen(false)}
+        booking={selectedBooking}
       />
     </div>
   );

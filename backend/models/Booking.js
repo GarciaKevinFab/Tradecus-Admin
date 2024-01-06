@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema(
     {
-        usertId: {
+        userId: {  // Assuming this should be 'userId' instead of 'usertId'
             type: String
         },
         userEmail: {
@@ -12,18 +12,28 @@ const bookingSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        tourType: {  // New field for tour type
+            type: String,
+            required: true,
+        },
         guestSize: {
             type: Number,
             required: true,
         },
         phone: {
-            type: Number,
+            type: String,  // Changed to String to accommodate different phone number formats
             required: true,
         },
         bookAt: {
             type: Date,
-            // required: true,
+            required: true,
         },
+        userData: [{  // New field for guest details
+            nombres: String,
+            apellidoPaterno: String,
+            apellidoMaterno: String,
+            // Include any other fields that are part of the DNI data
+        }]
     },
     { timestamps: true }
 );

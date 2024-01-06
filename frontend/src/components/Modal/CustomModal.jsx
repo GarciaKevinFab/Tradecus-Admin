@@ -1,49 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import moment from 'moment';
-import DniField from '../DNI/DniField.jsx';
 
-const CustomModal = ({ isOpen, onRequestClose, selectedDate }) => {
-  const [bookingInfo, setBookingInfo] = useState({
-    phone: '',
-    guestSize: '1',
-  });
+Modal.setAppElement('#root');
 
-  const [dni, setDni] = useState(new Array(1).fill(''));
+const CustomModal = ({ isOpen, onRequestClose, booking }) => {
+  const [bookingInfo, setBookingInfo] = useState({});
 
   useEffect(() => {
-    setDni(new Array(Number(bookingInfo.guestSize)).fill(''));
-  }, [bookingInfo.guestSize]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setBookingInfo((prevBookingInfo) => ({
-      ...prevBookingInfo,
-      [name]: value,
-    }));
-  };
-
-  const handleDniChange = (index, value) => {
-    setDni((prevDni) => {
-      const newDni = [...prevDni];
-      newDni[index] = value;
-      return newDni;
-    });
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // Aquí puedes enviar los datos de la reserva al servidor o realizar cualquier otra acción necesaria
-    console.log(bookingInfo);
-    console.log(dni);
-    onRequestClose();
-  };
+    if (booking) {
+      setBookingInfo(booking);
+    }
+  }, [booking]);
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Crear Reserva"
+      contentLabel="Detalle de la Reserva"
       style={{
         overlay: {
           zIndex: 9999,
@@ -53,47 +27,23 @@ const CustomModal = ({ isOpen, onRequestClose, selectedDate }) => {
         },
       }}
     >
-      <h2>Crear una Reserva</h2>
-      <p>Fecha Seleccionada: {selectedDate && moment(selectedDate).format('LLL')}</p>
-      <form onSubmit={handleFormSubmit}>
-        <div>
-          <label htmlFor="phone">Teléfono:</label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            value={bookingInfo.phone}
-            onChange={handleInputChange}
-            required
-          />
+      <h2>Detalle de la Reserva</h2>
+      <p>Usuario ID: {bookingInfo.userId}</p>
+      <p>Email del Usuario: {bookingInfo.userEmail}</p>
+      <p>Nombre del Tour: {bookingInfo.tourName}</p>
+      <p>Tipo de Tour: {bookingInfo.tourType}</p>
+      <p>Número de Invitados: {bookingInfo.guestSize}</p>
+      <p>Teléfono: {bookingInfo.phone}</p>
+      <p>Fecha de Reserva: {bookingInfo.bookAt && moment(bookingInfo.bookAt).format('LLL')}</p>
+      <h3>Detalles de los Invitados:</h3>
+      {bookingInfo.userData && bookingInfo.userData.map((user, index) => (
+        <div key={index}>
+          <p>Nombre: {user.nombres}</p>
+          <p>Apellido Paterno: {user.apellidoPaterno}</p>
+          <p>Apellido Materno: {user.apellidoMaterno}</p>
         </div>
-        <div>
-          <label htmlFor="guestSize">Número de Invitados:</label>
-          <input
-            type="number"
-            id="guestSize"
-            name="guestSize"
-            value={bookingInfo.guestSize}
-            onChange={handleInputChange}
-            required
-            min="1"
-          />
-        </div>
-        <div>
-          <label>DNI:</label>
-          {bookingInfo.guestSize > 0 &&
-            [...Array(Number(bookingInfo.guestSize))].map((_, i) => (
-              <DniField
-                key={i}
-                index={i}
-                dni={dni}
-                onChange={handleDniChange}
-              />
-            ))}
-        </div>
-        <button type="submit">Reservar</button>
-        <button onClick={onRequestClose}>Cerrar</button>
-      </form>
+      ))}
+      <button onClick={onRequestClose}>Cerrar</button>
     </Modal>
   );
 };

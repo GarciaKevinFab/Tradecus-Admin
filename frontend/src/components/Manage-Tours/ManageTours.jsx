@@ -13,8 +13,32 @@ const ManageTours = () => {
         const fetchTours = async () => {
             try {
                 const res = await axios.get(`${BASE_URL}/tours`);
-                console.log(res.data)
-                setTours(res.data.data); // Modificar esta línea
+                const tourData = res.data.data;
+
+                // Obtener las reviews de cada tour
+                const toursWithReviews = await Promise.all(
+                    tourData.map(async (tour) => {
+                        try {
+                            const reviewRes = await axios.get(`${BASE_URL}/reviews/${tour._id}`);
+                            const reviews = reviewRes.data.data;
+
+                            // Calcular el rating promedio si hay reseñas
+                            const totalReviews = reviews.length;
+                            const totalRating = totalReviews > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) : 0;
+                            const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+                            return {
+                                ...tour,
+                                reviews: totalReviews,
+                                rating: averageRating,
+                            };
+                        } catch (error) {
+                            return tour; // En caso de error al obtener las reviews, conserva el tour sin cambios
+                        }
+                    })
+                );
+
+                setTours(toursWithReviews);
                 setLoading(false);
             } catch (error) {
                 toast.error("Error al obtener los Tours");
@@ -44,6 +68,8 @@ const ManageTours = () => {
                         <tr>
                             <th>Título</th>
                             <th>Ciudad</th>
+                            <th>Reviews</th>
+                            <th>Rating</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -52,6 +78,8 @@ const ManageTours = () => {
                             <tr key={tour._id}>
                                 <td>{tour.title}</td>
                                 <td>{tour.city}</td>
+                                <td>{tour.reviews}</td>
+                                <td>{tour.rating ? tour.rating.toFixed(2) : 'N/A'}</td>
                                 <td>
                                     <Link to={`/edit_tour/${tour._id}`} className="btn secondary__btn">
                                         Editar
