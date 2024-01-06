@@ -39,11 +39,10 @@
 
 .sidebar__content {
   display: flex;
-
   justify-content: space-between;
   flex-direction: column;
   height: calc(100% - 5%);
-  margin-top: 30px;
+  margin-top: 60px;
 }
 
 .menu {
