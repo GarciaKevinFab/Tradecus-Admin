@@ -1,50 +1,79 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Form, FormGroup } from "reactstrap";
-import DniField from '../DNI/DniField.jsx';
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import DniField from '../../components/DNI/DniField';
 import { BASE_URL } from '../../utils/config';
-import { AuthContext } from "../../context/AuthContext";
+import { useLocation } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
-const EditBooking = ({ bookingId }) => {
-  const { user } = useContext(AuthContext);
-
+const EditBooking = () => {
   const [tours, setTours] = useState([]);
-  const [booking, setBooking] = useState(null);
-  const [dni, setDni] = useState([]);
-  const [userData, setUserData] = useState([]);
+  const location = useLocation();
+  const bookingDataFromLocation = location.state?.booking;
+
+  const [booking, setBooking] = useState(bookingDataFromLocation || { tourName: '', guestSize: 1, phone: '', userData: [] });
+  const [dni, setDni] = useState(bookingDataFromLocation ? bookingDataFromLocation.userData.map(user => user.dni || "") : new Array(1).fill(""));
+  const [userData, setUserData] = useState(bookingDataFromLocation ? bookingDataFromLocation.userData : new Array(1).fill({}));
+  const [tourType, setTourType] = useState(bookingDataFromLocation ? bookingDataFromLocation.tourType : "private");
 
   useEffect(() => {
     axios.get(`${BASE_URL}/tours`)
       .then(response => {
-        setTours(response.data);
+        setTours(response.data.data);
       })
       .catch(error => {
         console.error(error);
       });
+  }, []);
 
-    axios.get(`${BASE_URL}/booking/${bookingId}`)
-      .then(response => {
-        setBooking(response.data);
-        setDni(new Array(response.data.guestSize).fill(""));
-        setUserData(new Array(response.data.guestSize).fill({}));
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, [bookingId]);
+  useEffect(() => {
+    setDni(dni => [...dni.slice(0, booking.guestSize), ...new Array(booking.guestSize - dni.length).fill("")]);
+    setUserData(userData => [...userData.slice(0, booking.guestSize), ...new Array(booking.guestSize - userData.length).fill({})]);
+  }, [booking.guestSize]);
+
+  const getMaxGuests = () => {
+    return tourType === "private" ? 2 : 25;
+  };
+
+  useEffect(() => {
+    const maxGuests = getMaxGuests();
+    if (booking.guestSize > maxGuests) {
+      setBooking(prev => ({ ...prev, guestSize: maxGuests }));
+      toast.info(`Número máximo de invitados para el tipo de tour "${tourType}" es ${maxGuests}.`);
+    }
+  }, [tourType, booking.guestSize]);
+
+  const handleGuestSizeChange = (e) => {
+    const newGuestSize = parseInt(e.target.value, 10);
+    const maxGuests = getMaxGuests();
+    if (newGuestSize <= maxGuests) {
+      setBooking(prev => ({ ...prev, guestSize: newGuestSize }));
+    } else {
+      toast.error(`Número de invitados excede el límite para el tipo de tour seleccionado.`);
+    }
+  };
+
+  const handleTourTypeChange = (e) => {
+    setTourType(e.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const updatedBooking = {
+      ...booking,
+      tourType: tourType,
+      userData: userData.map((data, index) => ({
+        ...data,
+        dni: dni[index]
+      }))
+    };
 
-    axios
-      .put(`${BASE_URL}/booking/${bookingId}`, booking)
-      .then((response) => {
-        console.log(response.data);
+    axios.put(`${BASE_URL}/booking/${booking._id}`, updatedBooking)
+      .then(response => {
         toast.success('Reserva actualizada con éxito.');
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         toast.error('Ocurrió un error al actualizar la reserva.');
       });
@@ -58,12 +87,14 @@ const EditBooking = ({ bookingId }) => {
     <div>
       <h2>Editar reserva</h2>
       <Form onSubmit={handleSubmit}>
+        {/* Campos del formulario */}
         <FormGroup>
-          <label>Nombre del Tour:</label>
-          <select
-            required
+          <Label>Nombre del Tour:</Label>
+          <Input
+            type="select"
+            name="tourName"
             value={booking.tourName}
-            onChange={(e) => setBooking((prev) => ({ ...prev, tourName: e.target.value }))}
+            onChange={e => setBooking(prev => ({ ...prev, [e.target.name]: e.target.value }))}
           >
             <option value="">Seleccione un tour</option>
             {tours.map(tour => (
@@ -71,33 +102,47 @@ const EditBooking = ({ bookingId }) => {
                 {tour.title}
               </option>
             ))}
-          </select>
+          </Input>
         </FormGroup>
+
         <FormGroup>
-          <label>Número de invitados:</label>
-          <input
+          <Label>Tipo de Tour:</Label>
+          <Input
+            type="select"
+            name="tourType"
+            value={tourType}
+            onChange={handleTourTypeChange}
+          >
+            <option value="private">Privado (1-2 personas)</option>
+            <option value="corporate">Corporativo (1-25 personas)</option>
+            {/* Añade más opciones si las tienes */}
+          </Input>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Número de invitados:</Label>
+          <Input
             type="number"
-            required
+            name="guestSize"
+            min="1"
+            max={getMaxGuests()}
             value={booking.guestSize}
-            onChange={(e) => {
-              setBooking((prev) => ({ ...prev, guestSize: e.target.value }));
-              setDni(new Array(e.target.value).fill(""));
-              setUserData(new Array(e.target.value).fill({}));
-            }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <label>Teléfono:</label>
-          <input
-            type="tel"
-            required
-            value={booking.phone}
-            onChange={(e) => setBooking((prev) => ({ ...prev, phone: e.target.value }))}
+            onChange={handleGuestSizeChange}
           />
         </FormGroup>
 
-        {/* Agregar campos de DNI */}
-        {dni.map((_, i) => (
+        <FormGroup>
+          <Label>Teléfono:</Label>
+          <Input
+            type="tel"
+            name="phone"
+            value={booking.phone}
+            onChange={e => setBooking(prev => ({ ...prev, [e.target.name]: e.target.value }))}
+          />
+        </FormGroup>
+
+        {/* Campos DNI para cada invitado */}
+        {Array.from({ length: booking.guestSize }, (_, i) => (
           <DniField
             key={i}
             index={i}
@@ -108,10 +153,10 @@ const EditBooking = ({ bookingId }) => {
           />
         ))}
 
-        <button type="submit">Actualizar Reserva</button>
+        <Button type="submit">Actualizar Reserva</Button>
       </Form>
     </div>
   );
-}
+};
 
 export default EditBooking;

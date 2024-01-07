@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { IconContext } from "react-icons";
 import navLinks from "../../assets/dummy-data/navLinks";
 import urlLogo from "../../assets/dummy-data/imgLogo";
-import { FaPowerOff } from "react-icons/fa6";
+import { FaPowerOff } from "react-icons/fa";
 import "./sidebar.css";
 
 const Sidebar = () => {

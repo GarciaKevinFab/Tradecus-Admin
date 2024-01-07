@@ -1,6 +1,6 @@
 .navbar {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding: 5px 10px 5px 0px;
   background: var(--primary-color);
   color: #fff;

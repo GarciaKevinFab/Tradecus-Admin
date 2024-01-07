@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 Modal.setAppElement('#root');
 
 const CustomModal = ({ isOpen, onRequestClose, booking }) => {
   const [bookingInfo, setBookingInfo] = useState({});
+  const navigate = useNavigate(); // Instantiate the navigate function
 
   useEffect(() => {
     if (booking) {
       setBookingInfo(booking);
     }
   }, [booking]);
+
+  const handleEditBooking = () => {
+    navigate(`/edit_booking`, { state: { booking: bookingInfo } }); // Navigate to /edit_booking with booking info
+    onRequestClose(); // Optionally close the modal after navigation
+  };
 
   return (
     <Modal
@@ -43,6 +50,7 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
           <p>Apellido Materno: {user.apellidoMaterno}</p>
         </div>
       ))}
+      <button onClick={handleEditBooking}>Editar Reserva</button>
       <button onClick={onRequestClose}>Cerrar</button>
     </Modal>
   );
