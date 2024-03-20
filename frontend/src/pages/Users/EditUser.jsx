@@ -10,14 +10,14 @@ const EditUser = () => {
 
     const { id } = useParams();
 
-    const navigate = useNavigate(); // Hook useNavigate
+    const navigate = useNavigate();
 
     const handleBack = () => {
         navigate("/manage_users");
     };
 
     const [userData, setUserData] = useState({
-      username: '',
+        username: '',
         email: '',
         password: '',
         role: '',
@@ -59,41 +59,41 @@ const EditUser = () => {
 
     return (
         <div className="EditUser">
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="name"
-                value={userData.username}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="email"
-                name="email"
-                value={userData.email}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="password"
-                name="password"
-                value={userData.password}
-                onChange={handleChange}
-                required
-            />
-            <select 
-                name="role"
-                value={userData.role}
-                onChange={handleChange}
-                required
-            >
-                <option value="">--Please choose an option--</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
-            <input type="submit" value="Actualizar usuario" />
-        </form>
-        <button onClick={handleBack}>Regresar</button>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    name="name"
+                    value={userData.username}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="email"
+                    name="email"
+                    value={userData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    value={userData.password}
+                    onChange={handleChange}
+                    required
+                />
+                <select
+                    name="role"
+                    value={userData.role}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="">--Please choose an option--</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <input type="submit" value="Actualizar usuario" />
+            </form>
+            <button onClick={handleBack}>Regresar</button>
 
         </div>
 

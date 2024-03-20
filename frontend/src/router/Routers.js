@@ -1,7 +1,10 @@
+// Routers.jsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from '../pages/Dashboard.jsx';
-import ManageTours from '../components/Manage-Tours/ManageTours.jsx';
+import Login from '../pages/Login';
+import Layout from '../components/Layout/Layout';
+import Dashboard from '../pages/Dashboard';
+import ManageTours from '../components/Manage-Tours/ManageTours';
 import CreateTour from '../pages/Tours/CreateTour.jsx';
 import EditTour from '../pages/Tours/EditTour.jsx';
 import DeleteTour from '../pages/Tours/DeleteTour.jsx';
@@ -17,7 +20,6 @@ import ManageContacts from '../components/Manage-Contacts/ManageContacts.jsx';
 import DeleteReview from '../pages/Reviews/DeleteReview.jsx';
 import ContactDetail from '../pages/Contacts/DetailContact.jsx';
 import TourDetail from '../pages/Tours/DetailTour.jsx';
-import Login from '../pages/Login.jsx';
 import CreateBooking from '../pages/Bookings/CreateBooking.jsx';
 import RescheduleBooking from '../pages/Bookings/RescheduleBooking.jsx';
 
@@ -26,35 +28,36 @@ const Routers = () => {
         <Routes>
             <Route path='/' element={<Navigate to='/login' />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-
-            <Route path='/manage_tours' element={<ManageTours />} />
-            <Route path='/create_tour' element={<CreateTour />} />
-            <Route path='/edit_tour/:id' element={<EditTour />} />
-            <Route path='/delete_tour/:id' element={<DeleteTour />} />
-            <Route path='/detail_tour/:id' element={<TourDetail />} />
-
-
-            <Route path='/manage_users' element={<ManageUsers />} />
-            <Route path='/create_user' element={<CreateUser />} />
-            <Route path='/edit_user/:id' element={<EditUser />} />
-            <Route path='/delete_user/:id' element={<DeleteUser />} />
-
-            <Route path='/manage_reviews' element={<ManageReviews />} />
-            <Route path='/delete_review/:reviewId' element={<DeleteReview />} />
+            <Route path='/' element={<Layout />}>
+                <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/manage_tours' element={<ManageTours />} />
+                <Route path='/create_tour' element={<CreateTour />} />
+                <Route path='/edit_tour/:id' element={<EditTour />} />
+                <Route path='/delete_tour/:id' element={<DeleteTour />} />
+                <Route path='/detail_tour/:id' element={<TourDetail />} />
 
 
+                <Route path='/manage_users' element={<ManageUsers />} />
+                <Route path='/create_user' element={<CreateUser />} />
+                <Route path='/edit_user/:id' element={<EditUser />} />
+                <Route path='/delete_user/:id' element={<DeleteUser />} />
 
-            <Route path='/manage_bookings' element={<ManageBookings />} />
-            <Route path='/create_booking' element={<CreateBooking />} />
-            <Route path='/Reschedule_booking' element={<RescheduleBooking />} />
+                <Route path='/manage_reviews' element={<ManageReviews />} />
+                <Route path='/delete_review/:reviewId' element={<DeleteReview />} />
 
 
 
-            <Route path='/manage_subscribes' element={<ManageSubscribes />} />
-            <Route path='/manage_contacts' element={<ManageContacts />} />
-            <Route path='/detail_contact/:id' element={<ContactDetail />} />
-            <Route path='/settings' element={<Settings />} />
+                <Route path='/manage_bookings' element={<ManageBookings />} />
+                <Route path='/create_booking' element={<CreateBooking />} />
+                <Route path='/Reschedule_booking' element={<RescheduleBooking />} />
+
+
+
+                <Route path='/manage_subscribes' element={<ManageSubscribes />} />
+                <Route path='/manage_contacts' element={<ManageContacts />} />
+                <Route path='/detail_contact/:id' element={<ContactDetail />} />
+                <Route path='/settings' element={<Settings />} />
+            </Route>
 
         </Routes>
     );
