@@ -15,8 +15,8 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
     }
   }, [booking]);
 
-  const handleEditBooking = () => {
-    navigate(`/edit_booking`, { state: { booking: bookingInfo } }); // Navigate to /edit_booking with booking info
+  const handleReschedule = () => {
+    navigate(`/reschedule_booking`, { state: { booking: bookingInfo } });
     onRequestClose(); // Optionally close the modal after navigation
   };
 
@@ -50,7 +50,7 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
           <p>Apellido Materno: {user.apellidoMaterno}</p>
         </div>
       ))}
-      <button onClick={handleEditBooking}>Editar Reserva</button>
+      <button onClick={handleReschedule}>Reprogramar Reserva</button>
       <button onClick={onRequestClose}>Cerrar</button>
     </Modal>
   );

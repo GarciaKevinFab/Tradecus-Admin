@@ -19,7 +19,7 @@ import ContactDetail from '../pages/Contacts/DetailContact.jsx';
 import TourDetail from '../pages/Tours/DetailTour.jsx';
 import Login from '../pages/Login.jsx';
 import CreateBooking from '../pages/Bookings/CreateBooking.jsx';
-import EditBooking from '../pages/Bookings/EditBooking.jsx';
+import RescheduleBooking from '../pages/Bookings/RescheduleBooking.jsx';
 
 const Routers = () => {
     return (
@@ -47,7 +47,7 @@ const Routers = () => {
 
             <Route path='/manage_bookings' element={<ManageBookings />} />
             <Route path='/create_booking' element={<CreateBooking />} />
-            <Route path='/edit_booking' element={<EditBooking />} />
+            <Route path='/Reschedule_booking' element={<RescheduleBooking />} />
 
 
 
