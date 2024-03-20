@@ -4,36 +4,72 @@
     align-items: flex-start;
     justify-content: flex-start;
     margin-top: 50px;
+    padding: 20px;
 }
 
-.CreateTour form {
+.Containerform {
+    width: 100%;
     display: flex;
+    gap: 10px;
     flex-direction: column;
     align-items: flex-start;  /* Aquí está el cambio */
-    width: 60%;
+}
+.inputs_container{
+    display: flex;
+    width: 100%;
+    gap: 40px;
+}
+.left__side{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.right__side{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+}
+.btn-form{
+    display: flex;
+    gap: 20px;
 }
 
 .CreateTour label {
     margin-top: 10px;
+    font-weight: 600;
 }
 
 .CreateTour input[type="text"],
 .CreateTour input[type="number"],
 .CreateTour textarea {
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     margin-top: 5px;
+    border-radius: 6px;
 }
 
 .CreateTour input[type="submit"] {
-    margin-top: 20px;
-    padding: 10px;
+    
+    padding: 10px 20px;
     background-color: #4CAF50;
+    border-radius: 6px;
+    font-size: 14px;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .CreateTour input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #6bbd6e;
+    
+}
+.back{
+    background-color: #f6390e;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 10px 20px;
 }

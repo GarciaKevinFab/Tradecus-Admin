@@ -21,7 +21,7 @@ td {
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #b1c1ff;
   font-weight: bold;
 }
 
@@ -29,23 +29,34 @@ td {
   text-align: center;
 }
 
-.actions {
+
+.action_container{
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
   gap: 10px;
 }
+.btn{
+  padding: 5px 12px;
+  border-radius: 5px;
 
-.actions a {
-  color: #fff;
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 4px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #0b191e;
+
 }
-
-.actions a.edit {
-  background-color: #3498db;
+.edit__btn{
+  background-color: #18cf68;
 }
-
-.actions a.delete {
+.delete__btn{
   background-color: #e74c3c;
+}
+.details__btn{
+  background-color: #20a9d7;
+}
+.create__btn{
+  background-color: #85d3db;
+  padding: 12px 12px;
+  font-weight: 700;
 }

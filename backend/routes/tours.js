@@ -1,6 +1,6 @@
 import express from 'express';
 import { createTour, deleteTour, getTourById , getAllTour, getFeaturedTour, getSingleTour, getTourBySearch, getTourCount, updateTour } from './../controllers/tourController.js';
-import {upload } from '../utils/multer.js';
+import upload  from '../utils/multer.js';
 //import { verifyAdmin } from '../utils/verifyToken.js';
 
 const router = express.Router();

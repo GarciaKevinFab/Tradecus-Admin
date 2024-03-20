@@ -133,7 +133,7 @@ const EditTour = () => {
             </label>
             <input type="submit" value="Actualizar tour" />
         </form>
-        <button onClick={handleBack}>Regresar</button>
+        <button onClick={handleBack} className='back'>Regresar</button>
 
         </div>
 

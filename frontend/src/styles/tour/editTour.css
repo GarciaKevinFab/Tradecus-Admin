@@ -50,3 +50,10 @@
     color: black; 
     border: 2px solid #4caf50;
 }
+.back{
+    background-color: #f6390e;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 10px 20px;
+}
