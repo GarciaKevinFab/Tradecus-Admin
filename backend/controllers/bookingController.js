@@ -68,3 +68,21 @@ export const updateBooking = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error', error: err.message });
     }
 };
+
+// Agrega esta nueva función para eliminar una reserva
+export const deleteBooking = async (req, res) => {
+    const id = req.params.id; // Obtén el ID de la reserva desde los parámetros de la ruta
+
+    try {
+        const deletedBooking = await Booking.findByIdAndDelete(id);
+
+        if (deletedBooking) {
+            res.status(200).json({ success: true, message: 'Booking deleted successfully' });
+        } else {
+            // Si no se encuentra la reserva, devuelve un error 404
+            res.status(404).json({ success: false, message: 'Booking not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Internal server error', error: err.message });
+    }
+};

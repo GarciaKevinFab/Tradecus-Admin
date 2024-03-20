@@ -9,45 +9,43 @@ import './manageTours.css';
 const ManageTours = () => {
     const [tours, setTours] = useState([]);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        const fetchTours = async () => {
+        const fetchToursAndReviews = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/tours`);
-                const tourData = res.data.data;
+                const [tourRes, reviewRes] = await Promise.all([
+                    axios.get(`${BASE_URL}/tours`),
+                    axios.get(`${BASE_URL}/review`) // Asume que esta es la URL correcta para obtener todas las reseñas
+                ]);
 
-                // Obtener las reviews de cada tour
-                const toursWithReviews = await Promise.all(
-                    tourData.map(async (tour) => {
-                        try {
-                            const reviewRes = await axios.get(`${BASE_URL}/reviews/${tour._id}`);
-                            const reviews = reviewRes.data.data;
+                const tourData = tourRes.data.data;
+                const reviews = reviewRes.data.data;
 
-                            // Calcular el rating promedio si hay reseñas
-                            const totalReviews = reviews.length;
-                            const totalRating = totalReviews > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) : 0;
-                            const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+                // Asignar reseñas a cada tour
+                const toursWithReviews = tourData.map((tour) => {
+                    const tourReviews = reviews.filter(review => review.productId.toString() === tour._id.toString());
+                    const totalReviews = tourReviews.length;
+                    const totalRating = totalReviews > 0 ? tourReviews.reduce((sum, review) => sum + review.rating, 0) : 0;
+                    const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
 
-                            return {
-                                ...tour,
-                                reviews: totalReviews,
-                                rating: averageRating,
-                            };
-                        } catch (error) {
-                            return tour; // En caso de error al obtener las reviews, conserva el tour sin cambios
-                        }
-                    })
-                );
+                    return {
+                        ...tour,
+                        reviews: totalReviews,
+                        rating: averageRating,
+                    };
+                });
 
                 setTours(toursWithReviews);
                 setLoading(false);
             } catch (error) {
-                toast.error("Error al obtener los Tours");
+                toast.error("Error al obtener los Tours o las reseñas");
                 setLoading(false);
             }
         };
 
-        fetchTours();
+        fetchToursAndReviews();
     }, []);
+
 
     if (loading) {
         return <p>Loading...</p>;
