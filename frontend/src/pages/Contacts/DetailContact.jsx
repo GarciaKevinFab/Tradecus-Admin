@@ -13,13 +13,11 @@ const ContactDetail = () => {
     const fetchContact = async () => {
       try {
         const res = await axios.get(`${BASE_URL}/contact/${id}`);
-        console.log(res.data); // Imprime los datos obtenidos
 
         setContact(res.data);
         setLoading(false);
       } catch (error) {
         toast.error("Error al obtener el contacto");
-        console.log(error); // Imprime el error
 
         setLoading(false);
       }

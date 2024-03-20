@@ -34,14 +34,25 @@ const EditTour = () => {
         const fetchTour = async () => {
             try {
                 const res = await axios.get(`${BASE_URL}/tours/${id}`);
-                setTourData(res.data.data);
+                setTourData({
+                    title: res.data.data.title || '',
+                    city: res.data.data.city || '',
+                    address: res.data.data.address || '',
+                    distance: res.data.data.distance || '',
+                    photo: res.data.data.photo || '',
+                    desc: res.data.data.desc || '',
+                    reviews: res.data.data.reviews || [],
+                    price: res.data.data.price || '',
+                    maxGroupSize: res.data.data.maxGroupSize || '',
+                    featured: res.data.data.featured || false,
+                });
             } catch (error) {
                 toast.error('Ocurrió un error al obtener el tour');
             }
         };
         fetchTour();
     }, [id]);
-    
+
 
     const handleChange = (event) => {
         const target = event.target;
@@ -66,74 +77,74 @@ const EditTour = () => {
 
     return (
         <div className="EditTour">
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="title"
-                value={tourData.title}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="city"
-                value={tourData.city}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="address"
-                value={tourData.address}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="number"
-                name="distance"
-                value={tourData.distance}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="text"
-                name="photo"
-                value={tourData.photo}
-                onChange={handleChange}
-                required
-            />
-            <textarea
-                name="desc"
-                value={tourData.desc}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="number"
-                name="price"
-                value={tourData.price}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="number"
-                name="maxGroupSize"
-                value={tourData.maxGroupSize}
-                onChange={handleChange}
-                required
-            />
-            <label>
-                Featured:
+            <form onSubmit={handleSubmit}>
                 <input
-                    name="featured"
-                    type="checkbox"
-                    checked={tourData.featured}
+                    type="text"
+                    name="title"
+                    value={tourData.title}
                     onChange={handleChange}
+                    required
                 />
-            </label>
-            <input type="submit" value="Actualizar tour" />
-        </form>
-        <button onClick={handleBack}>Regresar</button>
+                <input
+                    type="text"
+                    name="city"
+                    value={tourData.city}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="text"
+                    name="address"
+                    value={tourData.address}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="number"
+                    name="distance"
+                    value={tourData.distance}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="text"
+                    name="photo"
+                    value={tourData.photo}
+                    onChange={handleChange}
+                    required
+                />
+                <textarea
+                    name="desc"
+                    value={tourData.desc}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="number"
+                    name="price"
+                    value={tourData.price}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="number"
+                    name="maxGroupSize"
+                    value={tourData.maxGroupSize}
+                    onChange={handleChange}
+                    required
+                />
+                <label>
+                    Featured:
+                    <input
+                        name="featured"
+                        type="checkbox"
+                        checked={tourData.featured}
+                        onChange={handleChange}
+                    />
+                </label>
+                <input type="submit" value="Actualizar tour" />
+            </form>
+            <button onClick={handleBack}>Regresar</button>
 
         </div>
 

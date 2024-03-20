@@ -27,7 +27,15 @@ const EditUser = () => {
         const fetchUser = async () => {
             try {
                 const res = await axios.get(`${BASE_URL}/users/${id}`);
-                setUserData(res.data.data);
+                const data = res.data.data;
+
+                // Initialize fields to empty string if they are undefined or null
+                setUserData({
+                    username: data.username || '',
+                    email: data.email || '',
+                    password: data.password || '', // Consider handling password carefully
+                    role: data.role || '',
+                });
             } catch (error) {
                 toast.error('Error al obtener los datos del usuario');
             }
@@ -35,16 +43,18 @@ const EditUser = () => {
         fetchUser();
     }, [id]);
 
+
     const handleChange = (event) => {
         const target = event.target;
         const value = target.value;
-        const username = target.username;
+        const name = target.name; // This should be target.name, not target.username
 
         setUserData({
             ...userData,
-            [username]: value,
+            [name]: value,
         });
     };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
