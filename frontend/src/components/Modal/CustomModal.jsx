@@ -26,7 +26,9 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
   const handleDelete = async () => {
     if (window.confirm('¿Está seguro de que desea eliminar esta reserva?')) {
       try {
-        await axios.delete(`${BASE_URL}/booking/${bookingInfo._id}`);
+        await axios.delete(`${BASE_URL}/booking/${bookingInfo._id}`, {
+          withCredentials: true
+        });
         toast.success('Reserva eliminada con éxito.');
         onRequestClose(); // Cierra el modal
         // Considera usar un enfoque más sofisticado que reload para actualizar la lista

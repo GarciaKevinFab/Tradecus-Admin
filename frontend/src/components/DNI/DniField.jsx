@@ -11,8 +11,9 @@ const DniField = ({ index, dni, setDni, userData, setUserData }) => {
         if (dni[index] && dni[index].length === 8) {
             try {
                 // Cambia esta URL a tu propio endpoint
-                const response = await axios.get(`${BASE_URL}/dni/getDniData/${dni[index]}`);
-                if (response.data && response.data.nombres && response.data.apellidoPaterno && response.data.apellidoMaterno) {
+                const response = await axios.get(`${BASE_URL}/dni/getDniData/${dni[index]}`, {
+                    withCredentials: true
+                }); if (response.data && response.data.nombres && response.data.apellidoPaterno && response.data.apellidoMaterno) {
                     let tempUserData = [...userData];
                     tempUserData[index] = response.data;
                     setUserData(tempUserData);

@@ -1,19 +1,16 @@
 import express from "express";
-import { createUser, deleteUser, getAllUser, getSingleUser, updateUser } from "../controllers/userController.js";
-//import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
+import ensureAuthenticated from "../middleware/authMiddleware.js"; // Asegúrate de que la ruta es correcta
+import { createUser, deleteUser, getAllUser, getSingleUser, updateUser, getCurrentUser } from "../controllers/userController.js";
 
 const router = express.Router();
 
-//update  user
+// Rutas existentes
 router.put('/:id', updateUser);
-
-//delete user
 router.delete('/:id', deleteUser);
-
-//get single user
 router.get('/:id', getSingleUser);
-
-//get all users
 router.get('/', getAllUser);
+
+router.get('/me', ensureAuthenticated, getCurrentUser);
+
 
 export default router;

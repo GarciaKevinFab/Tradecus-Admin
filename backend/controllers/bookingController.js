@@ -17,7 +17,7 @@ export const getBooking = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const book = await Booking.findById(id); // Cambie 'booking' a 'Booking' (con mayúscula)
+        const book = await Booking.findById(id);
 
         res.status(200).json({ success: true, message: 'successful', data: book });
     } catch (err) {
@@ -29,11 +29,11 @@ export const getBooking = async (req, res) => {
 export const getAllBooking = async (req, res) => {
 
     try {
-        const books = await Booking.find(); // Cambie 'booking' a 'Booking' (con mayúscula)
+        const books = await Booking.find();
 
         res.status(200).json({ success: true, message: 'successful', data: books });
     } catch (err) {
-        res.status(500).json({ success: false, message: 'internal server error' }); // Cambie el valor de success a false
+        res.status(500).json({ success: false, message: 'internal server error' });
     }
 };
 

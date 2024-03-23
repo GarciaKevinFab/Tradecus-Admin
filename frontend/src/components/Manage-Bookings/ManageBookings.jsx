@@ -23,7 +23,7 @@ const ManageBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/booking`);
+      const res = await axios.get(`${BASE_URL}/booking`, { withCredentials: true });
       const events = res.data.data.map(booking => ({
         ...booking,
         start: new Date(booking.bookAt),

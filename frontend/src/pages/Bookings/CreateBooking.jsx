@@ -26,7 +26,7 @@ const CreateBooking = () => {
   const [userData, setUserData] = useState(new Array(1).fill({}));
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/tours`)
+    axios.get(`${BASE_URL}/tours`, { withCredentials: true })
       .then(response => {
         if (response.data && Array.isArray(response.data.data)) {
           setTours(response.data.data); // Use response.data.data
@@ -92,7 +92,7 @@ const CreateBooking = () => {
       tourType: tourType
     };
 
-    axios.post(`${BASE_URL}/booking`, bookingData)
+    axios.post(`${BASE_URL}/booking`, bookingData, { withCredentials: true })
       .then((response) => {
         console.log(response.data);
         setBooking(prev => ({ ...prev, tourName: "", phone: "", guestSize: 1 }));

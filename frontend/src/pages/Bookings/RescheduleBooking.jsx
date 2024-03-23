@@ -27,7 +27,9 @@ const RescheduleBooking = () => {
       bookAt: moment(bookingDate).toISOString()
     };
 
-    axios.put(`${BASE_URL}/booking/${bookingDataFromLocation._id}`, updatedBooking)
+    axios.put(`${BASE_URL}/booking/${bookingDataFromLocation._id}`, updatedBooking, {
+      withCredentials: true
+    })
       .then(response => {
         toast.success('Reserva reprogramada con éxito.');
       })
