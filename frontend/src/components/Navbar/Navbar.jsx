@@ -5,31 +5,33 @@ import { BASE_URL } from '../../utils/config';
 
 function Navbar() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Añadir estado para cargar
-  const [error, setError] = useState(null); // Añadir estado para errores
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       setLoading(true);
       const url = `${BASE_URL}/users/me`;
-      console.log('Fetching user data from:', url);  // Mostrar la URL completa
+      console.log('Fetching user data from:', url); // Mostrar la URL completa antes de la solicitud
+
       try {
         const response = await axios.get(url, { withCredentials: true });
-        console.log('User data received:', response.data); // Mostrar datos recibidos
+        console.log('User data received:', response.data); // Mostrar los datos recibidos en caso de éxito
         setUser(response.data);
         setError(null);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching user data:', error); // Mostrar error en caso de fallo
+        console.error('Error details:', error.response || error.message); // Mostrar detalles del error
         setError('Error fetching user data');
         setUser(null);
       } finally {
         setLoading(false);
+        console.log('Fetching user data finished'); // Indicar que la solicitud ha finalizado
       }
     };
 
     fetchUserData();
   }, []);
-
 
   return (
     <nav className="navbar">
@@ -40,7 +42,7 @@ function Navbar() {
           <span>Error al cargar los datos del usuario</span>
         ) : user ? (
           <>
-            <span>{user.username}</span>
+            <span>{user.username || 'Nombre de usuario no disponible'}</span>
             <div className="user-img-container">
               <img
                 className="user-img"

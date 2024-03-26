@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL } from '../../utils/config';
 
 const TourDetail = () => {
     const [tour, setTour] = useState(null);
@@ -10,7 +9,7 @@ const TourDetail = () => {
     useEffect(() => {
         const fetchTour = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/tours/${id}`);
+                const res = await axios.get(`/tours/${id}`);
                 setTour(res.data.data);
             } catch (error) {
             }
@@ -29,7 +28,7 @@ const TourDetail = () => {
             <p>Ciudad: {tour.city}</p>
             <p>Dirección: {tour.address}</p>
             <p>Distancia: {tour.distance}</p>
-            
+
 
             <p>Descripción: {tour.desc}</p>
             <p>Precio: {tour.price}</p>

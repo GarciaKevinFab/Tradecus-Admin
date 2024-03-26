@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { BASE_URL } from '../../utils/config';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './manageBookings.css';
@@ -23,7 +22,7 @@ const ManageBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/booking`, { withCredentials: true });
+      const res = await axios.get('/booking');
       const events = res.data.data.map(booking => ({
         ...booking,
         start: new Date(booking.bookAt),
@@ -35,7 +34,6 @@ const ManageBookings = () => {
       console.error(err);
     }
   };
-
   const handleSelectEvent = (booking) => {
     setSelectedBooking(booking);
     setModalIsOpen(true);

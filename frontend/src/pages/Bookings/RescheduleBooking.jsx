@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
-import { BASE_URL } from '../../utils/config';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment';
 
@@ -27,9 +26,7 @@ const RescheduleBooking = () => {
       bookAt: moment(bookingDate).toISOString()
     };
 
-    axios.put(`${BASE_URL}/booking/${bookingDataFromLocation._id}`, updatedBooking, {
-      withCredentials: true
-    })
+    axios.put(`/booking/${bookingDataFromLocation._id}`, updatedBooking)
       .then(response => {
         toast.success('Reserva reprogramada con éxito.');
       })

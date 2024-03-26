@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // Asegúrate de que Axios esté configurado globalmente
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { BASE_URL } from '../../utils/config';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ManageReviews = () => {
@@ -12,7 +11,7 @@ const ManageReviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/review`);
+        const res = await axios.get('/review'); // Usando la ruta relativa
         setReviews(res.data.data);
         setLoading(false);
       } catch (error) {

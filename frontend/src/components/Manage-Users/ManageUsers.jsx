@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { BASE_URL } from '../../utils/config';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ManageUsers = () => {
@@ -12,7 +11,7 @@ const ManageUsers = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/users`);
+                const res = await axios.get('/users');
                 setUsers(res.data.data);
                 setLoading(false);
             } catch (error) {
@@ -28,7 +27,7 @@ const ManageUsers = () => {
         return <p>Cargando...</p>;
     }
 
-    if (!Array.isArray(users)) {
+    if (!Array.isArray(users) || users.length === 0) {
         return <p>No hay usuarios disponibles</p>;
     }
 

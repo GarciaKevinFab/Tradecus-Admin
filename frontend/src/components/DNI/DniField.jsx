@@ -3,17 +3,14 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Button } from "reactstrap";
 import { FormGroup, } from "reactstrap";
-import { BASE_URL } from "../../utils/config";
 
 const DniField = ({ index, dni, setDni, userData, setUserData }) => {
 
     const fetchDniData = async () => {
         if (dni[index] && dni[index].length === 8) {
             try {
-                // Cambia esta URL a tu propio endpoint
-                const response = await axios.get(`${BASE_URL}/dni/getDniData/${dni[index]}`, {
-                    withCredentials: true
-                }); if (response.data && response.data.nombres && response.data.apellidoPaterno && response.data.apellidoMaterno) {
+                const response = await axios.get(`/dni/getDniData/${dni[index]}`);
+                if (response.data && response.data.nombres && response.data.apellidoPaterno && response.data.apellidoMaterno) {
                     let tempUserData = [...userData];
                     tempUserData[index] = response.data;
                     setUserData(tempUserData);
@@ -27,6 +24,7 @@ const DniField = ({ index, dni, setDni, userData, setUserData }) => {
             toast.error("Por favor, introduce un DNI válido.");
         }
     }
+
 
     return (
         <FormGroup>

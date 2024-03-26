@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { BASE_URL } from '../../utils/config';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,7 +14,7 @@ const DeleteReview = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${BASE_URL}/review/${reviewId}`);
+      await axios.delete(`/review/${reviewId}`);
       toast.success('Reseña eliminada exitosamente!');
       navigate('/manage_reviews');
     } catch (error) {

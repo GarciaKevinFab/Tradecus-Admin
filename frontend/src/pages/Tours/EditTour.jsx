@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { BASE_URL } from '../../utils/config';
 import '../../styles/tour/editTour.css';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -33,19 +32,8 @@ const EditTour = () => {
     useEffect(() => {
         const fetchTour = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/tours/${id}`);
-                setTourData({
-                    title: res.data.data.title || '',
-                    city: res.data.data.city || '',
-                    address: res.data.data.address || '',
-                    distance: res.data.data.distance || '',
-                    photo: res.data.data.photo || '',
-                    desc: res.data.data.desc || '',
-                    reviews: res.data.data.reviews || [],
-                    price: res.data.data.price || '',
-                    maxGroupSize: res.data.data.maxGroupSize || '',
-                    featured: res.data.data.featured || false,
-                });
+                const res = await axios.get(`/tours/${id}`);
+                setTourData(res.data.data || {});
             } catch (error) {
                 toast.error('Ocurrió un error al obtener el tour');
             }
@@ -53,23 +41,20 @@ const EditTour = () => {
         fetchTour();
     }, [id]);
 
-
     const handleChange = (event) => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        setTourData({
-            ...tourData,
-            [name]: value,
-        });
+        const { name, value, type, checked } = event.target;
+        setTourData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.put(`${BASE_URL}/tours/${id}`, tourData);
+            await axios.put(`/tours/${id}`, tourData);
             toast.success('Tour actualizado exitosamente!');
+            navigate("/manage_tours");
         } catch (error) {
             toast.error('Ocurrió un error al actualizar el tour');
         }

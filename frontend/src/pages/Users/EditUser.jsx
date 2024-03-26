@@ -26,14 +26,13 @@ const EditUser = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/users/${id}`);
+                const res = await axios.get(`/users/${id}`);
                 const data = res.data.data;
 
-                // Initialize fields to empty string if they are undefined or null
                 setUserData({
                     username: data.username || '',
                     email: data.email || '',
-                    password: data.password || '', // Consider handling password carefully
+                    password: '', // No se debería manejar la contraseña directamente por cuestiones de seguridad
                     role: data.role || '',
                 });
             } catch (error) {
@@ -43,25 +42,21 @@ const EditUser = () => {
         fetchUser();
     }, [id]);
 
-
     const handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name; // This should be target.name, not target.username
+        const { name, value } = event.target;
 
-        setUserData({
-            ...userData,
+        setUserData(prevState => ({
+            ...prevState,
             [name]: value,
-        });
+        }));
     };
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.put(`${BASE_URL}/users/${id}`, userData);
+            await axios.put(`/users/${id}`, userData);
             toast.success('Usuario actualizado exitosamente!');
-            navigate("/manage_users");  // After successful update, navigate back to the user list
+            navigate("/manage_users");
         } catch (error) {
             toast.error('Ocurrió un error al actualizar el usuario');
         }

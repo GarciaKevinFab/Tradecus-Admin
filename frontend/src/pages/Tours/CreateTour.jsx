@@ -18,7 +18,7 @@ const CreateTour = () => {
         maxGroupSize: '',
         featured: false
     });
-    
+
     const navigate = useNavigate(); // Hook useNavigate
 
     const handleBack = () => {
@@ -35,23 +35,26 @@ const CreateTour = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-        Object.keys(tourData).forEach(key => formData.append(key, tourData[key]));
+        Object.keys(tourData).forEach(key => {
+            if (key === 'photos') {
+                Array.from(tourData.photos).forEach(file => {
+                    formData.append('photos', file);
+                });
+            } else {
+                formData.append(key, tourData[key]);
+            }
+        });
+
         try {
-            console.log(tourData)
-            await axios.post(`${BASE_URL}/tours`, formData);
-            toast.success('Tour creado exitosamente!');
-            setTourData({
-                title: '',
-                city: '',
-                address: '',
-                distance: '',
-                photo: '',
-                desc: '',
-                price: '',
-                maxGroupSize: '',
-                featured: false
+            await axios.post('/tours', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
+            toast.success('Tour creado exitosamente!');
+            navigate('/manage_tours');
         } catch (error) {
+            console.error(error);
             toast.error('Ocurrió un error al crear el tour');
         }
     };

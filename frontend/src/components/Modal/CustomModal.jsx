@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL } from '../../utils/config';
 import { toast } from 'react-toastify';
 
 Modal.setAppElement('#root');
@@ -20,18 +19,15 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
 
   const handleReschedule = () => {
     navigate(`/reschedule_booking`, { state: { booking: bookingInfo } });
-    onRequestClose(); // Cierra el modal tras la acción
+    onRequestClose();
   };
 
   const handleDelete = async () => {
     if (window.confirm('¿Está seguro de que desea eliminar esta reserva?')) {
       try {
-        await axios.delete(`${BASE_URL}/booking/${bookingInfo._id}`, {
-          withCredentials: true
-        });
+        await axios.delete(`/booking/${bookingInfo._id}`);
         toast.success('Reserva eliminada con éxito.');
-        onRequestClose(); // Cierra el modal
-        // Considera usar un enfoque más sofisticado que reload para actualizar la lista
+        onRequestClose();
         window.location.reload();
       } catch (error) {
         console.error('Error al eliminar la reserva:', error);
@@ -39,7 +35,6 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
       }
     }
   };
-
 
   return (
     <Modal

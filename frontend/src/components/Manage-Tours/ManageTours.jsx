@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../utils/config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './manageTours.css';
@@ -14,8 +13,8 @@ const ManageTours = () => {
         const fetchToursAndReviews = async () => {
             try {
                 const [tourRes, reviewRes] = await Promise.all([
-                    axios.get(`${BASE_URL}/tours`),
-                    axios.get(`${BASE_URL}/review`) // Asume que esta es la URL correcta para obtener todas las reseñas
+                    axios.get('/tours'),
+                    axios.get('/review')
                 ]);
 
                 const tourData = tourRes.data.data;
@@ -46,13 +45,12 @@ const ManageTours = () => {
         fetchToursAndReviews();
     }, []);
 
-
     if (loading) {
         return <p>Loading...</p>;
     }
 
-    if (!Array.isArray(tours)) {
-        return <p>No tours available</p>;
+    if (!Array.isArray(tours) || tours.length === 0) {
+        return <p>No hay tours disponibles</p>;
     }
 
     return (
@@ -88,7 +86,6 @@ const ManageTours = () => {
                                     <Link to={`/detail_tour/${tour._id}`} className="btn secondary__btn">
                                         Ver
                                     </Link>
-
                                 </td>
                             </tr>
                         ))}
@@ -100,5 +97,6 @@ const ManageTours = () => {
             </button>
         </div>
     );
-}
+};
+
 export default ManageTours;

@@ -112,13 +112,14 @@ export const getAllUser = async (req, res) => {
 
 // Get current user
 export const getCurrentUser = async (req, res) => {
-    console.log("Obteniendo el usuario actual...");
     try {
-        const user = await User.findById(req.user._id);
-        console.log("Usuario encontrado:", user);
-        res.status(200).json(user);
+        const user = await User.findById(req.user._id);  // Asumiendo que req.user._id contiene el ID del usuario
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
     } catch (err) {
-        console.log("Error al obtener el usuario:", err);
-        res.status(500).json({ message: 'Error retrieving user data' });
+        console.error('Error fetching current user:', err);
+        res.status(500).json({ message: 'Error fetching user data' });
     }
 };
