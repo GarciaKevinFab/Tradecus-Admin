@@ -31,23 +31,16 @@ const CreateTour = () => {
       [event.target.name]: event.target.value,
     });
   };
+
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
 
     if (selectedFiles && selectedFiles.length > 0) {
-      const realImages = [];
-
-      for (let i = 0; i < Math.min(selectedFiles.length, 5); i++) {
-        const file = selectedFiles[i];
-        const imageUrl = URL.createObjectURL(file);
-        realImages.push(imageUrl);
-
-        console.log("esto es Real previewImageUrls " + realImages);
-      }
-
+      // Convertir la lista de archivos en un array
+      const fileList = Array.from(selectedFiles);
       setTourData((prevData) => ({
         ...prevData,
-        photos: realImages,
+        photos: fileList,
       }));
     }
   };
@@ -55,8 +48,14 @@ const CreateTour = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
+    // Agregar los datos del tour al FormData
     Object.keys(tourData).forEach((key) => formData.append(key, tourData[key]));
     try {
+      // Agregar las imágenes al FormData
+      tourData.photos.forEach((photo) => {
+        formData.append("photos", photo);
+      });
+      // Enviar el FormData al backend
       await axios.post(`${BASE_URL}/tours`, formData);
       toast.success("Tour creado exitosamente!");
       setTourData({

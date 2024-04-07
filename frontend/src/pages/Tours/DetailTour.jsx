@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../utils/config";
+import "../../styles/tour/detailTour.css";
 
 const TourDetail = () => {
   const [tour, setTour] = useState(null);
@@ -24,26 +25,33 @@ const TourDetail = () => {
   }
 
   return (
-    <div>
-      <h2>{tour.title}</h2>
-      <p>Ciudad: {tour.city}</p>
-      <p>Dirección: {tour.address}</p>
-      <p>Distancia: {tour.distance}</p>
+    <div className="container">
+      <h2 className="title">{tour.title}</h2>
+      <div className="detail">
+        <p>Ciudad: {tour.city}</p>
+        <p>Dirección: {tour.address}</p>
+        <p>Distancia: {tour.distance}</p>
+        <p>Descripción: {tour.desc}</p>
+        <p>Precio: {tour.price}</p>
+        <p>Tamaño máximo del grupo: {tour.maxGroupSize}</p>
+      </div>
 
-      <p>Descripción: {tour.desc}</p>
-      <p>Precio: {tour.price}</p>
-      <p>Tamaño máximo del grupo: {tour.maxGroupSize}</p>
       {/* Agregar visualización de las imágenes */}
-      <div>
         <h3>Imágenes del Tour</h3>
-
+      <div className="image-container">
         {tour.photos &&
           tour.photos.length > 0 &&
           tour.photos.map((photo, index) => (
             <div key={index}>
-              <img src={photo.secure_url} alt={`Imagen ${index + 1}`} />
+              <img src={photo.secureUrl} alt={`Imagen ${index + 1}`} />
             </div>
           ))}
+      </div>
+
+      <div className="button-container">
+        <Link to="/manage_tours" className="button">
+          Volver atrás
+        </Link>
       </div>
     </div>
   );

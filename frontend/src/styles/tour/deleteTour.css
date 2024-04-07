@@ -1,6 +1,7 @@
 .DeleteTour {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -11,15 +12,25 @@
     margin-bottom: 20px;
 }
 
-.DeleteTour button {
+.buttons {
     padding: 10px 20px;
     border: none;
-    background-color: #ff0000;
+    border-radius: 8px;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.DeleteTour button:hover {
-    background-color: #cc0000;
+.deleteButton{
+    background-color: #ff0000;
 }
+.deleteButton:hover{
+    background-color: #c5290d;
+}
+.backButton{
+    background-color: rgb(10, 76, 152);
+}
+.backButton:hover{
+    background-color: rgb(13, 56, 104);
+}
+

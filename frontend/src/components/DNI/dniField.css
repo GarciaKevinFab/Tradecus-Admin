@@ -1,0 +1,25 @@
+/* dniField.css */
+
+.primary__btn {
+    background-color: #31cb40;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .primary__btn:hover {
+    background-color: #18ce58;
+  }
+  
+  /* Ajustes de tamaño y espaciado */
+  .w-10 {
+    width: 10%;
+  }
+  
+  .mt-4 {
+    margin-top: 16px;
+  }
+  

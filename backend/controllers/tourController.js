@@ -9,7 +9,7 @@ const unlinkAsync = promisify(fs.unlink);
 export const createTour = async (req, res) => {
   try {
     // Obtener paths de las imágenes desde multer
-    console.log("Datos del Request:", req.body);
+  
     console.log("Datos de los Archivos:", req.files);
     const localPaths = req.files.map((file) => file.path);
     console.log("Paths de imágenes locales:", localPaths);
@@ -26,14 +26,17 @@ export const createTour = async (req, res) => {
       ...req.body,
       photos: cloudinaryData,
     };
-    // Crear producto en la base de datos
+
+    // Crear instancia del modelo Tour
     const newTour = new Tour(tourData);
+
+    // Guardar el nuevo tour en la base de datos
     const savedTour = await newTour.save();
 
-    res;
+    // Enviar respuesta al cliente
     res.status(201).json({
       success: true,
-      product: savedTour,
+      tour: savedTour, // Cambiado de product a tour
     });
   } catch (error) {
     console.error(error);

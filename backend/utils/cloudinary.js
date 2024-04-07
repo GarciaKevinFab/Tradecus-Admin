@@ -10,20 +10,20 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadImage = async (imageBuffer) => {
-  try {
-    const result = await cloudinary.uploader.upload(
-      imageBuffer.toString("base64"),
-      {
-        folder: "bookstore", // Reemplaza 'bokkstore' con el nombre de tu carpeta en Cloudinary
-      }
-    );
-    return { secureUrl: result.secure_url, publicId: result.public_id };
-  } catch (error) {
-    console.error("Error al cargar la imagen a Cloudinary:", error);
-    throw error; // Propaga el error para obtener más detalles en el controlador
-  }
-};
+// const uploadImage = async (imageBuffer) => {
+//   try {
+//     const result = await cloudinary.uploader.upload(
+//       imageBuffer.toString("base64"),
+//       {
+//         folder: "bookstore", // Reemplaza 'bokkstore' con el nombre de tu carpeta en Cloudinary
+//       }
+//     );
+//     return { secureUrl: result.secure_url, publicId: result.public_id };
+//   } catch (error) {
+//     console.error("Error al cargar la imagen a Cloudinary:", error);
+//     throw error; // Propaga el error para obtener más detalles en el controlador
+//   }
+// };
 
 //función que sube varias imágenes
 const uploadImages = async (imageBuffers) => {
@@ -43,4 +43,4 @@ const uploadImages = async (imageBuffers) => {
   }
 };
 
-export { uploadImage, uploadImages };
+export {  uploadImages };

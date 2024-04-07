@@ -19,10 +19,12 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    photos: [{  // <---- Aquí se cambió a un array
-      type: String,
-      required: true,
-    }],
+    photos: [
+      {
+        secureUrl: { type: String, required: true },
+        publicId: { type: String, required: true },
+      },
+    ],
     desc: {
       type: String,
       required: true,

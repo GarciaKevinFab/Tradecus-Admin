@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Button } from "reactstrap";
 import { FormGroup, } from "reactstrap";
 import { BASE_URL } from "../../utils/config";
+import './dniField.css';
 
 const DniField = ({ index, dni, setDni, userData, setUserData }) => {
 
