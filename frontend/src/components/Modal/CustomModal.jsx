@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 Modal.setAppElement('#root');
 
 const CustomModal = ({ isOpen, onRequestClose, booking }) => {
   const [bookingInfo, setBookingInfo] = useState({});
-  const navigate = useNavigate(); // Instantiate the navigate function
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (booking) {
@@ -15,9 +17,23 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
     }
   }, [booking]);
 
-  const handleEditBooking = () => {
-    navigate(`/edit_booking`, { state: { booking: bookingInfo } }); // Navigate to /edit_booking with booking info
-    onRequestClose(); // Optionally close the modal after navigation
+  const handleReschedule = () => {
+    navigate(`/reschedule_booking`, { state: { booking: bookingInfo } });
+    onRequestClose();
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm('¿Está seguro de que desea eliminar esta reserva?')) {
+      try {
+        await axios.delete(`/booking/${bookingInfo._id}`);
+        toast.success('Reserva eliminada con éxito.');
+        onRequestClose();
+        window.location.reload();
+      } catch (error) {
+        console.error('Error al eliminar la reserva:', error);
+        toast.error('Error al eliminar la reserva.');
+      }
+    }
   };
 
   return (
@@ -50,7 +66,8 @@ const CustomModal = ({ isOpen, onRequestClose, booking }) => {
           <p>Apellido Materno: {user.apellidoMaterno}</p>
         </div>
       ))}
-      <button onClick={handleEditBooking}>Editar Reserva</button>
+      <button onClick={handleReschedule}>Reprogramar Reserva</button>
+      <button onClick={handleDelete}>Eliminar Reserva</button>
       <button onClick={onRequestClose}>Cerrar</button>
     </Modal>
   );

@@ -30,7 +30,12 @@ const CreateTour = () => {
       ...tourData,
       [event.target.name]: event.target.value,
     });
+<<<<<<< HEAD
   };
+=======
+
+    const navigate = useNavigate(); // Hook useNavigate
+>>>>>>> 263b48db6f0add4de01b009b8fb67e956bc83848
 
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
@@ -45,6 +50,7 @@ const CreateTour = () => {
     }
   };
 
+<<<<<<< HEAD
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -114,6 +120,79 @@ const CreateTour = () => {
                 onChange={handleChange}
               />
             </label>
+=======
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        Object.keys(tourData).forEach(key => {
+            if (key === 'photos') {
+                Array.from(tourData.photos).forEach(file => {
+                    formData.append('photos', file);
+                });
+            } else {
+                formData.append(key, tourData[key]);
+            }
+        });
+
+        try {
+            await axios.post('/tours', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            toast.success('Tour creado exitosamente!');
+            navigate('/manage_tours');
+        } catch (error) {
+            console.error(error);
+            toast.error('Ocurrió un error al crear el tour');
+        }
+    };
+
+    return (
+        <div className="CreateTour">
+
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Título:
+                    <input type="text" name="title" value={tourData.title} onChange={handleChange} />
+                </label>
+                <label>
+                    Ciudad:
+                    <input type="text" name="city" value={tourData.city} onChange={handleChange} />
+                </label>
+                <label>
+                    Dirección:
+                    <input type="text" name="address" value={tourData.address} onChange={handleChange} />
+                </label>
+                <label>
+                    Distancia:
+                    <input type="text" name="distance" value={tourData.distance} onChange={handleChange} />
+                </label>
+                <label>
+                    Fotos:
+                    <input type="file" name="photos" multiple onChange={e => setTourData({ ...tourData, photos: e.target.files })} />
+                </label>
+
+                <label>
+                    Descripción:
+                    <textarea name="desc" value={tourData.desc} onChange={handleChange} />
+                </label>
+                <label>
+                    Precio:
+                    <input type="number" name="price" value={tourData.price} onChange={handleChange} />
+                </label>
+                <label>
+                    Máximo tamaño del grupo:
+                    <input type="number" name="maxGroupSize" value={tourData.maxGroupSize} onChange={handleChange} />
+                </label>
+                <label>
+                    ¿Destacado?
+                    <input type="checkbox" name="featured" checked={tourData.featured} onChange={() => setTourData({ ...tourData, featured: !tourData.featured })} />
+                </label>
+                <input type="submit" value="Crear tour" />
+            </form>
+            <button onClick={handleBack}>Regresar</button>
+>>>>>>> 263b48db6f0add4de01b009b8fb67e956bc83848
 
             <label>
               Descripción:

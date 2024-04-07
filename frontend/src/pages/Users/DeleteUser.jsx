@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { BASE_URL } from '../../utils/config';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,12 +14,11 @@ const DeleteUser = () => {
         navigate("/manage_users");
     };
 
-
     const handleDelete = async () => {
         try {
-            await axios.delete(`${BASE_URL}/users/${id}`);
+            await axios.delete(`/users/${id}`);
             toast.success('Usuario eliminado exitosamente!');
-            navigate("/manage_users");  // After successful delete, navigate back to the user list
+            navigate("/manage_users");
         } catch (error) {
             toast.error('Ocurrió un error al eliminar el usuario');
         }
@@ -32,7 +30,7 @@ const DeleteUser = () => {
             <button onClick={handleDelete}>Eliminar usuario</button>
             <button onClick={handleBack}>Regresar</button>
         </div>
-        
+
     );
 };
 

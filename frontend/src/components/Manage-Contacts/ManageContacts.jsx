@@ -17,7 +17,7 @@ const ManageContacts = () => {
 
   const fetchContacts = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/contact`);
+      const res = await axios.get('/contact');
       setContacts(res.data);
       setLoading(false);
     } catch (error) {
@@ -34,7 +34,7 @@ const ManageContacts = () => {
         try {
           await axios.delete(`${BASE_URL}/contact/${contactId}`);
           toast.success("Contacto atendido y eliminado correctamente");
-          fetchContacts(); // Refresh contacts
+          fetchContacts();
         } catch (error) {
           toast.error("Error al eliminar el contacto");
         }

@@ -3,8 +3,12 @@ import { useLocation } from "react-router-dom"; // Import useLocation
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Form, FormGroup } from "reactstrap";
+<<<<<<< HEAD
 import DniField from "../../components/DNI/DniField";
 import { BASE_URL } from "../../utils/config";
+=======
+import DniField from '../../components/DNI/DniField';
+>>>>>>> 263b48db6f0add4de01b009b8fb67e956bc83848
 import { AuthContext } from "../../context/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/booking/createBooking.css";
@@ -27,11 +31,16 @@ const CreateBooking = () => {
   const [userData, setUserData] = useState(new Array(1).fill({}));
 
   useEffect(() => {
+<<<<<<< HEAD
     axios
       .get(`${BASE_URL}/tours`)
       .then((response) => {
+=======
+    axios.get('/tours')
+      .then(response => {
+>>>>>>> 263b48db6f0add4de01b009b8fb67e956bc83848
         if (response.data && Array.isArray(response.data.data)) {
-          setTours(response.data.data); // Use response.data.data
+          setTours(response.data.data);
         } else {
           console.error(
             "Received data is not in expected format:",
@@ -41,6 +50,7 @@ const CreateBooking = () => {
       })
       .catch((error) => {
         console.error(error);
+        toast.error("Error al obtener los datos de los tours");
       });
   }, []);
 
@@ -106,8 +116,12 @@ const CreateBooking = () => {
       tourType: tourType,
     };
 
+<<<<<<< HEAD
     axios
       .post(`${BASE_URL}/booking`, bookingData)
+=======
+    axios.post('/booking', bookingData)
+>>>>>>> 263b48db6f0add4de01b009b8fb67e956bc83848
       .then((response) => {
         console.log(response.data);
         setBooking((prev) => ({

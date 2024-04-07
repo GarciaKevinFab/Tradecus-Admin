@@ -10,14 +10,14 @@ const EditUser = () => {
 
     const { id } = useParams();
 
-    const navigate = useNavigate(); // Hook useNavigate
+    const navigate = useNavigate();
 
     const handleBack = () => {
         navigate("/manage_users");
     };
 
     const [userData, setUserData] = useState({
-      username: '',
+        username: '',
         email: '',
         password: '',
         role: '',
@@ -26,8 +26,15 @@ const EditUser = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/users/${id}`);
-                setUserData(res.data.data);
+                const res = await axios.get(`/users/${id}`);
+                const data = res.data.data;
+
+                setUserData({
+                    username: data.username || '',
+                    email: data.email || '',
+                    password: '', // No se debería manejar la contraseña directamente por cuestiones de seguridad
+                    role: data.role || '',
+                });
             } catch (error) {
                 toast.error('Error al obtener los datos del usuario');
             }
@@ -36,22 +43,20 @@ const EditUser = () => {
     }, [id]);
 
     const handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const username = target.username;
+        const { name, value } = event.target;
 
-        setUserData({
-            ...userData,
-            [username]: value,
-        });
+        setUserData(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.put(`${BASE_URL}/users/${id}`, userData);
+            await axios.put(`/users/${id}`, userData);
             toast.success('Usuario actualizado exitosamente!');
-            navigate("/manage_users");  // After successful update, navigate back to the user list
+            navigate("/manage_users");
         } catch (error) {
             toast.error('Ocurrió un error al actualizar el usuario');
         }
@@ -59,41 +64,41 @@ const EditUser = () => {
 
     return (
         <div className="EditUser">
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="name"
-                value={userData.username}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="email"
-                name="email"
-                value={userData.email}
-                onChange={handleChange}
-                required
-            />
-            <input
-                type="password"
-                name="password"
-                value={userData.password}
-                onChange={handleChange}
-                required
-            />
-            <select 
-                name="role"
-                value={userData.role}
-                onChange={handleChange}
-                required
-            >
-                <option value="">--Please choose an option--</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
-            <input type="submit" value="Actualizar usuario" />
-        </form>
-        <button onClick={handleBack}>Regresar</button>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    name="name"
+                    value={userData.username}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="email"
+                    name="email"
+                    value={userData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    value={userData.password}
+                    onChange={handleChange}
+                    required
+                />
+                <select
+                    name="role"
+                    value={userData.role}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="">--Please choose an option--</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <input type="submit" value="Actualizar usuario" />
+            </form>
+            <button onClick={handleBack}>Regresar</button>
 
         </div>
 

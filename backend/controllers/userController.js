@@ -3,31 +3,31 @@ import User from '../models/User.js';
 //create new User
 export const createUser = async (req, res) => {
     const newUser = new User(req.body);
-  
+
     try {
-      const savedUser = await newUser.save();
-  
-      res
-        .status(200)
-        .json({
-          success: true,
-          message: 'Successfully created',
-          data: savedUser,
-        });
+        const savedUser = await newUser.save();
+
+        res
+            .status(200)
+            .json({
+                success: true,
+                message: 'Successfully created',
+                data: savedUser,
+            });
     } catch (err) {
-      if (err.code === 11000) {
-        // This is a duplicate key error
-        res
-          .status(400)
-          .json({ success: false, message: 'Username or email already exists.' });
-      } else {
-        res
-          .status(500)
-          .json({ success: false, message: 'Failed to create. Try again.' });
-      }
+        if (err.code === 11000) {
+            // This is a duplicate key error
+            res
+                .status(400)
+                .json({ success: false, message: 'Username or email already exists.' });
+        } else {
+            res
+                .status(500)
+                .json({ success: false, message: 'Failed to create. Try again.' });
+        }
     }
-  };
-  
+};
+
 
 //update User
 export const updateUser = async (req, res) => {
@@ -107,5 +107,19 @@ export const getAllUser = async (req, res) => {
             success: false,
             message: 'not found',
         });
+    }
+};
+
+// Get current user
+export const getCurrentUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);  // Asumiendo que req.user._id contiene el ID del usuario
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (err) {
+        console.error('Error fetching current user:', err);
+        res.status(500).json({ message: 'Error fetching user data' });
     }
 };
